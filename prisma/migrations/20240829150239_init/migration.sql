@@ -11,6 +11,7 @@ CREATE TABLE "Conversation" (
 -- CreateTable
 CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'User',
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

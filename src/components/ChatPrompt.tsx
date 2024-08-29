@@ -19,7 +19,10 @@ export const ChatPrompt = () => {
       content: inputMessage,
     };
 
-    const response = await axios.post(ENDPOINT, { messages: [formattedMessage] });
+    const response = await axios.post(ENDPOINT, {
+      conversationId: 123,
+      messages: [formattedMessage],
+    });
   };
 
   return (

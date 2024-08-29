@@ -18,6 +18,7 @@ model Conversation {
 
 model Message {
   id            String        @id @default(cuid())
+  role          String        @default("User")
   content       String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
