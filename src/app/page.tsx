@@ -5,8 +5,6 @@ import { Panel } from '@/components/Panel';
 import { MESSAGE_ROLE } from '@/constants/messages';
 import { prisma } from '@/lib/prisma';
 
-console.log(process.env.DATABASE_URL);
-
 export const getConversations = async () => {
   const conversations = await prisma.conversation.findMany({
     include: { Message: true },
@@ -17,9 +15,9 @@ export const getConversations = async () => {
 export default async function Home() {
   const conversations = await getConversations();
 
-  const selectedConversation =
-    conversations[0]?.Message?.map((message) => {
-      console.log(message);
+  const selectedConversation = conversations[0];
+  const messages =
+    selectedConversation?.Message?.map((message) => {
       return {
         role: message.role ?? MESSAGE_ROLE.USER,
         content: message.content,
@@ -36,8 +34,8 @@ export default async function Home() {
         </Panel>
       </div>
       <div className="flex h-screen w-full flex-col gap-1 p-4">
-        <ChatMessages messages={selectedConversation} />
-        <ChatPrompt />
+        <ChatMessages messages={messages} />
+        <ChatPrompt conversationId={selectedConversation.id} />
       </div>
     </div>
   );

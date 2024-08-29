@@ -5,7 +5,11 @@ import axios from 'axios';
 
 const ENDPOINT = 'api/chat';
 
-export const ChatPrompt = () => {
+export type ChatPromptProps = {
+  conversationId: string;
+};
+
+export const ChatPrompt = ({ conversationId }: ChatPromptProps) => {
   const [inputMessage, setInputMessage] = useState('');
 
   const handleSubmit = async () => {
@@ -14,14 +18,9 @@ export const ChatPrompt = () => {
       return;
     }
 
-    const formattedMessage = {
-      role: 'User',
-      content: inputMessage,
-    };
-
     const response = await axios.post(ENDPOINT, {
-      conversationId: 123,
-      messages: [formattedMessage],
+      conversationId,
+      message: inputMessage,
     });
   };
 

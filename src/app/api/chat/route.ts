@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ChatOpenAI } from '@langchain/openai';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { HttpResponseOutputParser } from 'langchain/output_parsers';
+import { prisma } from '@/lib/prisma';
+import { MESSAGE_ROLE } from '@/constants/messages';
 
 const formatMessage = (message: { role: string; content: string }) => {
   return `${message.role}: ${message.content}`;
@@ -18,12 +20,33 @@ AI:`;
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const messages = body.messages ?? [];
 
-    const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
-    const currentMessageContent = messages[messages.length - 1].content;
+    if (!body.message) {
+      throw new Error('Message is required');
+    }
 
-    console.log(currentMessageContent);
+    const conversation = await prisma.conversation.findFirst({
+      where: { id: body.conversationId },
+      include: { Message: true },
+    });
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    const messages = conversation.Message ?? [];
+    const formattedPreviousMessages = messages.map(formatMessage);
+
+    const currentMessageContent = body.message;
+
+    // store the message in the database
+    await prisma.message.create({
+      data: {
+        content: currentMessageContent,
+        role: MESSAGE_ROLE.USER,
+        conversationId: conversation.id,
+      },
+    });
 
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
 
@@ -39,6 +62,15 @@ export async function POST(req: NextRequest) {
     const stream = await chain.stream({
       chat_history: formattedPreviousMessages.join('\n'),
       input: currentMessageContent,
+    });
+
+    // store the AI response in the database
+    await prisma.message.create({
+      data: {
+        content: '',
+        role: MESSAGE_ROLE.AI,
+        conversationId: conversation.id,
+      },
     });
 
     return new Response(stream, {
