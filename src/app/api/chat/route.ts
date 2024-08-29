@@ -26,6 +26,10 @@ export async function POST(req: NextRequest) {
       throw new Error('Message is required');
     }
 
+    if (!body.conversationId) {
+      throw new Error('Conversation ID is required');
+    }
+
     const conversation = await prisma.conversation.findFirst({
       where: { id: body.conversationId },
       include: { Message: true },
@@ -79,6 +83,20 @@ export async function POST(req: NextRequest) {
     return new Response(text, {
       status: 200,
     });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: e.status ?? 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    console.log(req);
+
+    const conversations = await prisma.conversation.findFirst({
+      include: { Message: true },
+    });
+
+    return NextResponse.json(conversations);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: e.status ?? 500 });
   }

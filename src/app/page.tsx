@@ -16,13 +16,6 @@ export default async function Home() {
   const conversations = await getConversations();
 
   const selectedConversation = conversations[0];
-  const messages =
-    selectedConversation?.Message?.map((message) => {
-      return {
-        role: message.role ?? MESSAGE_ROLE.USER,
-        content: message.content,
-      };
-    }) ?? [];
 
   return (
     <div className="flex h-screen">
@@ -34,7 +27,7 @@ export default async function Home() {
         </Panel>
       </div>
       <div className="flex h-screen w-full flex-col gap-1 p-4">
-        <ChatMessages messages={messages} />
+        <ChatMessages messages={selectedConversation?.Message ?? []} conversationId={selectedConversation.id} />
         <ChatPrompt conversationId={selectedConversation.id} />
       </div>
     </div>
