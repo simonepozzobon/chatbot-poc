@@ -1,29 +1,39 @@
-'use client'
-import { useState } from "react"
-import { Panel } from "./Panel"
-import axios from "axios"
+'use client';
+import { useState } from 'react';
+import { Panel } from './Panel';
+import axios from 'axios';
 
-const ENDPOINT = 'api/chat'
+const ENDPOINT = 'api/chat';
 
 export const ChatPrompt = () => {
-  const [inputMessage, setInputMessage] = useState('')
+  const [inputMessage, setInputMessage] = useState('');
 
   const handleSubmit = async () => {
     if (!inputMessage) {
-      console.log('No message to send')
-      return
+      console.log('No message to send');
+      return;
     }
 
-    const response = await axios.post(ENDPOINT, {messages: [inputMessage]})
-    console.log(response.data)
-  }
+    const formattedMessage = {
+      role: 'User',
+      content: inputMessage,
+    };
+
+    const response = await axios.post(ENDPOINT, { messages: [formattedMessage] });
+  };
 
   return (
     <Panel className="flex p-1">
-      <input className="flex-grow bg-white rounded-s p-2 shadow-inner  focus:outline-2 outline-primary" onChange={(e) => setInputMessage(e.target.value)}/>
-      <button className="py-2 px-4 hover:bg-primary/20 rounded-e hover:outline-2 outline-primary" onClick={handleSubmit}>
+      <input
+        className="grow rounded-s bg-white p-2 shadow-inner  outline-primary focus:outline-2"
+        onChange={(e) => setInputMessage(e.target.value)}
+      />
+      <button
+        className="rounded-e px-4 py-2 outline-primary hover:bg-primary/20 hover:outline-2"
+        onClick={handleSubmit}
+      >
         Send
       </button>
     </Panel>
-  )
-}
+  );
+};

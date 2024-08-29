@@ -1,13 +1,10 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from 'react';
 
 export type PanelProps = Readonly<{
   children: React.ReactNode | React.ReactNode[] | JSX.Element | JSX.Element[] | string;
-}> & ComponentPropsWithoutRef<"div">;
+}> &
+  ComponentPropsWithoutRef<'div'>;
 
 export const Panel = ({ children, ...rest }: PanelProps) => {
-  return (
-    <div className={`p-2 bg-white shadow-inner rounded ${rest.className}`}>
-      {children}
-    </div>
-  );
-}
+  return <div className={`rounded bg-white p-2 shadow-inner ${rest.className}`}>{children}</div>;
+};
