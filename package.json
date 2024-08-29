@@ -1,36 +1,40 @@
 {
-	"name": "pellini-poc",
-	"version": "0.1.0",
-	"private": true,
-	"engines": {
-		"node": ">=18"
-	},
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
+  "name": "pellini-poc",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "studio": "prisma studio"
-	},
-	"dependencies": {
-		"@langchain/core": "^0.2.31",
-		"@langchain/openai": "^0.2.8",
+  },
+  "dependencies": {
+    "@langchain/core": "^0.2.31",
+    "@langchain/openai": "^0.2.8",
     "@prisma/client": "^5.19.0",
-		"axios": "^1.7.5",
-		"langchain": "^0.2.17",
-		"next": "14.2.7",
-		"react": "^18",
-		"react-dom": "^18"
-	},
-	"devDependencies": {
-		"@types/node": "^20",
-		"@types/react": "^18",
-		"@types/react-dom": "^18",
-		"eslint": "^8",
-		"eslint-config-next": "14.2.7",
-		"postcss": "^8",
-		"prisma": "^5.19.0",
-		"tailwindcss": "^3.4.1",
-		"typescript": "^5"
-	}
+    "axios": "^1.7.5",
+    "clsx": "^2.1.1",
+    "langchain": "^0.2.17",
+    "next": "14.2.7",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-next": "14.2.7",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-tailwindcss": "^3.15.1",
+    "postcss": "^8",
+    "prisma": "^5.19.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
 }
