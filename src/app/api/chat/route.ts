@@ -4,6 +4,7 @@ import { PromptTemplate } from '@langchain/core/prompts';
 import { HttpResponseOutputParser } from 'langchain/output_parsers';
 import { prisma } from '@/lib/prisma';
 import { MESSAGE_ROLE } from '@/constants/messages';
+import { Readable } from 'stream';
 
 const formatMessage = (message: { role: string; content: string }) => {
   return `${message.role}: ${message.content}`;
@@ -64,16 +65,18 @@ export async function POST(req: NextRequest) {
       input: currentMessageContent,
     });
 
+    const text = await new Response(stream).text();
+
     // store the AI response in the database
     await prisma.message.create({
       data: {
-        content: '',
+        content: text,
         role: MESSAGE_ROLE.AI,
         conversationId: conversation.id,
       },
     });
 
-    return new Response(stream, {
+    return new Response(text, {
       status: 200,
     });
   } catch (e: any) {

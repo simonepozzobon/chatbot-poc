@@ -7,7 +7,7 @@ export type ChatMessagesProps = {
 
 export const ChatMessages = ({ messages }: ChatMessagesProps) => {
   return (
-    <Panel className="flex flex-col gap-2 p-2">
+    <Panel className="flex grow flex-col gap-2 p-2">
       {messages?.map((message, index) => <ChatMessage key={index} message={message} />)}
     </Panel>
   );
