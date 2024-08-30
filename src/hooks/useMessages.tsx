@@ -50,7 +50,6 @@ export const usePostMessageMutation = ({ conversationId }: { conversationId: str
       });
     },
     onSuccess: (data) => {
-      console.log(data);
       queryClient.setQueryData<MessagesState>([MESSAGES_QUERY_KEY, conversationId], (state) => {
         return {
           messages: [

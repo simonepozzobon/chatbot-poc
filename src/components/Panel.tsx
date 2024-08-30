@@ -6,5 +6,9 @@ export type PanelProps = Readonly<{
   ComponentPropsWithoutRef<'div'>;
 
 export const Panel = ({ children, ...rest }: PanelProps) => {
-  return <div className={`rounded bg-white p-2 shadow-inner ${rest.className}`}>{children}</div>;
+  return (
+    <div {...rest} className={`rounded bg-white p-2 shadow-inner ${rest.className}`}>
+      {children}
+    </div>
+  );
 };

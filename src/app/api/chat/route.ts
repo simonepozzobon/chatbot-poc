@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
 
     const model = new ChatOpenAI({
-      temperature: 0.5,
+      temperature: 1,
       model: 'gpt-3.5-turbo',
     });
 
@@ -90,9 +90,16 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    console.log(req);
+    const queryString = new URL(req.url).searchParams;
+    const params = new URLSearchParams(queryString);
+
+    const conversationId = params.get('conversationId');
+    if (!conversationId) {
+      throw new Error('Conversation ID is required');
+    }
 
     const conversations = await prisma.conversation.findFirst({
+      where: { id: conversationId },
       include: { Message: true },
     });
 
